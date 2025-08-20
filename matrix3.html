@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hacking</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-color: #000;
+            color: #0f0;
+            font-family: 'Courier New', monospace;
+            overflow: hidden;
+            height: 100vh;
+            position: relative;
+        }
+        
+        .container {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            z-index: 10;
+        }
+        
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 10px #0f0;
+            letter-spacing: 3px;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            max-width: 800px;
+            line-height: 1.6;
+            color: #0a0;
+        }
+        
+        .code-block {
+            background-color: rgba(0, 30, 0, 0.6);
+            border: 1px solid #0f0;
+            padding: 20px;
+            border-radius: 5px;
+            margin: 20px 0;
+            max-width: 800px;
+            text-align: left;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+        }
+        
+        .code-line {
+            margin: 8px 0;
+            padding-left: 10px;
+            border-left: 2px solid #0f0;
+        }
+        
+        .stats {
+            display: flex;
+            gap: 30px;
+            margin-top: 20px;
+            font-size: 1.1rem;
+        }
+        
+        .stat-box {
+            background-color: rgba(0, 40, 0, 0.7);
+            padding: 15px;
+            border-radius: 5px;
+            min-width: 150px;
+            border: 1px solid #0f0;
+        }
+        
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #0f0;
+            margin-top: 5px;
+        }
+        
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+        
+        #matrixCanvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+        
+        .scan-line {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(to bottom, rgba(0, 255, 0, 0), #0f0, rgba(0, 255, 0, 0));
+            box-shadow: 0 0 10px #0f0;
+            z-index: 5;
+            animation: scan 3s linear infinite;
+        }
+        
+        @keyframes scan {
+            0% { top: 0%; }
+            100% { top: 100%; }
+        }
+        
+        .glitch {
+            position: relative;
+            animation: glitch 5s infinite;
+        }
+        
+        @keyframes glitch {
+            0%, 100% { transform: translate(0); }
+            1% { transform: translate(-2px, 2px); }
+            2% { transform: translate(2px, -2px); }
+            3% { transform: translate(-2px, -2px); }
+            4% { transform: translate(2px, 2px); }
+            5% { transform: translate(0); }
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { text-shadow: 0 0 10px #0f0; }
+            50% { text-shadow: 0 0 20px #0f0, 0 0 30px #0f0; }
+        }
+        
+        .binary-rain {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+            opacity: 0.3;
+            background-image: 
+                linear-gradient(rgba(0, 30, 0, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 30, 0, 0.1) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+        
+        .warning {
+            color: #ff0;
+            animation: blink 1s infinite;
+        }
+        
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+        
+        .terminal {
+            color: #0f0;
+            font-family: monospace;
+            white-space: pre;
+            overflow: hidden;
+            border-right: 0.15em solid #0f0;
+            animation: blink-caret 0.75s step-end infinite;
+        }
+        
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: #0f0 }
+        }
+    </style>
+</head>
+<body>
+    <!-- Je t'ai vu venir Ced😏🤣🤣😝😝😝 -->
+    <canvas id="matrixCanvas"></canvas>
+    <div class="binary-rain"></div>
+    <div class="scan-line"></div>
+    
+    <div class="overlay"></div>
+    
+    <div class="container">
+        <h1 class="glitch pulse">HACKING SYSTEM</h1>
+        <p class="subtitle">Système de sécurité compromis - Accès non autorisé détecté</p>
+        
+        <div class="code-block">
+            <div class="code-line">> root@matrix:~$ <span class="terminal">initiate_override --protocol=Zion --encryption=256bit</span></div>
+            <div class="code-line">> [!] Accès SSH établi: 192.168.7.101</div>
+            <div class="code-line">> [!] Contournement du firewall: SUCCÈS</div>
+            <div class="code-line">> Téléchargement des données... [██████████] 100%</div>
+            <div class="code-line">> Injection du payload: <span class="warning">AgentSmith.exe</span></div>
+            <div class="code-line">> [!] Système compromis: Mainframe_Core</div>
+        </div>
+        
+        <div class="stats">
+            <div class="stat-box">
+                <div>ACCÈS NIVEAU</div>
+                <div class="stat-value">ROOT</div>
+            </div>
+            <div class="stat-box">
+                <div>DONNÉES VOLÉES</div>
+                <div class="stat-value">4.7TB</div>
+            </div>
+            <div class="stat-box">
+                <div>SYSTÈMES COMPROMIS</div>
+                <div class="stat-value">17</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const config = {
+            fontSize: 14,
+            fontFamily: 'monospace',
+            characters: 'アァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズブヅプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッン0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ',
+            color: '#0f0',
+            backgroundColor: 'rgba(0, 0, 0, 0.05)',
+            trailColor: 'rgba(0, 255, 0, 0.1)',
+            speed: 15,
+            columns: 0,
+            drops: []
+        };
+
+        function initMatrix() {
+            const canvas = document.getElementById('matrixCanvas');
+            const ctx = canvas.getContext('2d');
+            
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            
+            config.columns = Math.floor(canvas.width / config.fontSize);
+            
+            for (let i = 0; i < config.columns; i++) {
+                config.drops[i] = Math.floor(Math.random() * canvas.height / config.fontSize);
+            }
+
+            drawMatrix(ctx, canvas);
+        }
+
+        function drawMatrix(ctx, canvas) {
+            
+            ctx.fillStyle = config.backgroundColor;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            ctx.fillStyle = config.color;
+            
+            
+            for (let i = 0; i < config.drops.length; i++) {
+                const text = config.characters.charAt(Math.floor(Math.random() * config.characters.length));
+                
+                ctx.fillStyle = config.color;
+                ctx.fillText(text, i * config.fontSize, config.drops[i] * config.fontSize);
+                
+                for (let j = 1; j <= 5; j++) {
+                    const trailY = (config.drops[i] - j) * config.fontSize;
+                    if (trailY >= 0) {
+                        const opacity = 1 - (j * 0.2);
+                        ctx.fillStyle = rgba(0, 255, 0, {opacity})
+                        ctx.fillText(config.characters.charAt(Math.floor(Math.random() * config.characters.length)), i * config.fontSize, trailY);
+                    }
+                }
+                
+                if (config.drops[i] * config.fontSize > canvas.height && Math.random() > 0.975) {
+                    config.drops[i] = 0;
+                }
+                
+                config.drops[i]++;
+            }
+            
+            requestAnimationFrame(() => drawMatrix(ctx, canvas));
+        }
+
+        window.addEventListener('load', initMatrix);
+        window.addEventListener('resize', initMatrix);
+
+        const terminal = document.querySelector('.terminal');
+        const text = "winkler_mainframe_hacking --force";
+        let index = 0;
+        
+        function typeTerminal() {
+            if (index < text.length) {
+                terminal.innerHTML = text.substring(0, index + 1);
+                index++;
+                setTimeout(typeTerminal, 100);
+            } else {
+                setTimeout(() => {
+                    index = 0;
+                    terminal.innerHTML = "";
+                    setTimeout(typeTerminal, 500);
+                }, 2000);
+            }
+        }
+        
+        setTimeout(typeTerminal, 1000);
+        
+        setInterval(() => {
+            const titles = document.querySelectorAll('h1, .subtitle, .code-line');
+            titles.forEach(title => {
+                if (Math.random() > 0.7) {
+                    title.classList.add('glitch');
+                    setTimeout(() => title.classList.remove('glitch'), 200);
+                }
+            });
+        }, 3000);
+    </script>
+</body>
+</html>
